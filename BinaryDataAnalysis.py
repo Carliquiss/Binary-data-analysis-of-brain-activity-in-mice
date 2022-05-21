@@ -159,8 +159,7 @@ class BehaviourFile:
         
         allOnesBurst = []
         itemsToLookFor = []
-        
-        indexDeleted = 0   
+        indexHelper = 0
         
         for originalData in self.unifyData: #Copy unifyData to itemsToLookFor
             itemsToLookFor.append(originalData)
@@ -171,16 +170,11 @@ class BehaviourFile:
             burstGoing = True
             
             while(burstGoing): # If we are in a 1s burst 
+                data = itemsToLookFor[indexHelper]
                 
-                data = itemsToLookFor[index]
-                
-                if data["binaryData"] in self.VALUES_CONSIDER_AS_ONES: #Found a value consider as 1
-                    burstGoing = True # We are on a burst
-                    
+                if data["binaryData"] in self.VALUES_CONSIDER_AS_ONES and data not in oneBurst: #Found a value consider as 1
+                    burstGoing = True # We are on a burst                    
                     oneBurst.append(data)
-                    itemsToLookFor.pop(index - indexDeleted)
-                    
-                    indexDeleted += 1 #Increment in 1 the index deleted
                     
                 else: #The 1s burst has ended
                     burstGoing = False
@@ -188,6 +182,10 @@ class BehaviourFile:
                     
                     if oneBurst: #Save the 1s burst if is not empty
                         allOnesBurst.append(oneBurst) 
+                        indexHelper -= 1
+                
+                if indexHelper < len(itemsToLookFor)-1:
+                    indexHelper += 1
     
         return allOnesBurst
         
@@ -241,7 +239,7 @@ class BehaviourFile:
         completeBursts = ""
         
         for burstNumber, burstData in enumerate(self.onesBursts):
-            
+                
             for dataZeros in self.zerosBurst[burstNumber]:
                 completeBursts += dataZeros["activity"] + ";"
             
@@ -266,13 +264,12 @@ class BehaviourFile:
         maxZerosLength = 0 
         lines = fullString.split() # Get each burst string separately
         
-        for burstIndex, zerosBurst in enumerate(self.zerosBurst):
-            
+        for zerosBurst in self.zerosBurst:
             if len(zerosBurst) > maxZerosLength:
                 maxZerosLength = len(zerosBurst) #Get maximun number of 0 in a burst
-            
-            spacesToAdd = maxZerosLength - len(zerosBurst) # Number of ";" chars (blank cells in CSV) to add. Blank cells = maxZerosLength - number of 0s that the 0s burst has.
-            
+                
+        for burstIndex, zerosBurst in enumerate(self.zerosBurst):
+            spacesToAdd = maxZerosLength - len(zerosBurst) # Number of ";" chars (blank cells in CSV) to add. Blank cells = maxZerosLength - number of 0s that the 0s burst has.            
             formatedString += ";" * spacesToAdd + lines[burstIndex] + "\n"
             
         return formatedString
