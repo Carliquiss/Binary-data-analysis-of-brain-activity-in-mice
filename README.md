@@ -8,7 +8,40 @@ Python script for processing binary data analysis of brain activity in mice and 
 ```
 python BinaryDataAnalysis.py
 ```
- 3. After running the script a csv file will be created inside the folders located in the specified path. The name of the csv file will be the date and time it was scanned.
+2. After running the script a csv file will be created inside the folders located in the specified path. The name of the csv file will be the date and time it was scanned.
+
+## Output: 
+```
+
+         _   _
+        (q\_/p)
+         /. .\         __
+  ,__   =\_t_/=      .'o O'-.
+     )   /   \      / O o_.-`|   _   _
+    (   ((   ))    /O_.-'  O |  (q\_/p)
+     \  /\) (/\    | o   o  o|   /. .\.-´´´´´ -.     ___,
+      `-\  Y  /    |o   o O.-`  =\_t_/=     /  `\  (
+         nn^nn     | O _.-'       )\ ))__ __\   |___)
+                   '--`          (/-(/`  `nn---'                                                                        
+
+> Reading file ./Data/folder1/B-thinned.prn
+> Reading file ./Data/folder1/F-thinned.prn
+> Data exported to ./Data/folder1/21-05-2022_16-33-13.csv
+
+> Reading file ./Data/folder2/B-thinned.prn
+> Reading file ./Data/folder2/F-thinned.prn
+> Data exported to ./Data/folder2/21-05-2022_16-33-13.csv
+
+> Reading file ./Data/folder3/B-thinned.prn
+> Reading file ./Data/folder3/F-thinned.prn
+> Data exported to ./Data/folder3/21-05-2022_16-33-13.csv
+
+> Reading file ./Data/folder4/B-thinned.prn
+> Reading file ./Data/folder4/F-thinned.prn
+> Data exported to ./Data/folder4/21-05-2022_16-33-13.csv
+
+> No valid files in ./Data/folder5 err/
+```
 
 
 # ⚙️ Modifiable parameters
