@@ -108,10 +108,10 @@ class BehaviourFile:
     def GetDataFromFile(self, file: str):
         dataset = []
         
-        print(f"> Reading file {file}")
         with open(file, "r") as openedFile: 
             lines = openedFile.readlines()
         
+        print(f"> Reading file {file}")
         for line in lines: 
             line = line.split("\n")[0]
             dataset.append(line.split("\t"))
@@ -300,9 +300,12 @@ def SearchAndAnalyzerFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
     for dirpath, dirnames, filenames in os.walk(path):
         for dirs in dirnames: 
             pathToAnalyze = f"{dirpath}{dirs}/"
-            BehaviourFile(pathToAnalyze).ExportToCSV(f"{pathToAnalyze}{dateWithHour}.csv")
             
+            try: 
+                BehaviourFile(pathToAnalyze).ExportToCSV(f"{pathToAnalyze}{dateWithHour}.csv")
             
+            except FileNotFoundError: 
+                print(f"> No valid files in {pathToAnalyze}")
 
 
 if __name__ == "__main__": 
