@@ -298,14 +298,15 @@ def SearchAndAnalyzeFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
     dateWithHour = now.strftime("%d-%m-%Y_%H-%M-%S")
     
     for dirpath, dirnames, filenames in os.walk(path):
+        
         for dirs in dirnames: 
-            pathToAnalyze = f"{dirpath}{dirs}/"
+            pathToAnalyze = f"{os.path.join(dirpath, dirs)}/"
             
             try: 
                 BehaviourFile(pathToAnalyze).ExportToCSV(f"{pathToAnalyze}{dateWithHour}.csv")
             
             except FileNotFoundError: 
-                print(f"> No valid files in {pathToAnalyze}")
+                print(f"> No valid files in {pathToAnalyze}\n")
 
 
 if __name__ == "__main__": 
