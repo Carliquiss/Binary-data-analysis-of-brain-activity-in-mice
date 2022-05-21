@@ -293,7 +293,7 @@ class BehaviourFile:
 ########################################################################## END CLASS ############################################################
 
 
-def SearchAndAnalyzerFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
+def SearchAndAnalyzeFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
     now = datetime.now()
     dateWithHour = now.strftime("%d-%m-%Y_%H-%M-%S")
     
@@ -311,4 +311,4 @@ def SearchAndAnalyzerFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
 if __name__ == "__main__": 
     
     print(BANNER)    
-    SearchAndAnalyzerFilesInFoldersRecursively()
+    SearchAndAnalyzeFilesInFoldersRecursively()
