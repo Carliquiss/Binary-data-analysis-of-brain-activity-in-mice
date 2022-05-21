@@ -22,10 +22,14 @@ FOLDER_WITH_BFthinned_FILES = "./Datos/"
 
 class BehaviourFile:
     """
-    This class contains the information needed from the Bthinned and Fthinned files in order to do the analysis.
+    This class contains the information needed from the Bthinned and Fthinned files in order to do the analysis. The following constants can be modified as desired
+    to process the data as you prefer
     """
     
-    SECONDS_PREVIOUS_TO_ONEs_BURST = 10 # Seconds previously to a 1s burst in order to get the amount of 0s 
+    SECONDS_PREVIOUS_TO_ONEs_BURST = 10 # Seconds previously to a 1s burst in order to get the amount of 0s. Set to -1 to get all the 0s
+    TIMESTAMP_STEP = 0.1 # Timestamp incrementation (in seconds). By default, data is collected each 0.1s    
+    MAX_0s_TO_EXPORT = SECONDS_PREVIOUS_TO_ONEs_BURST / TIMESTAMP_STEP # Maximun number of 0s to export into the csv file    
+    
     VALUES_CONSIDER_AS_ONES = ["1"] # If you want to consider also 0.5 as "1" just copy and replace the line with this> VALUES_CONSIDER_AS_ONES = ["1", "0.5"]
     
     START_ROW = 10 #Row from the Bthinned and Fthinned files where start getting the data (to avoid the first erroneous data)
@@ -72,7 +76,7 @@ class BehaviourFile:
         
         self.unifyData = self.UnifyData()        
         self.onesBursts = self.FindOnesBursts()
-        self.zerosBurst = self.FindZerosBurst()
+        self.zerosBurst = self.AdjustZerosBurstsLength(self.FindZerosBurst())        
         
     
     """
@@ -186,7 +190,8 @@ class BehaviourFile:
                         allOnesBurst.append(oneBurst) 
     
         return allOnesBurst
-                    
+        
+            
     """
     Method to find and save the 0s burst
     """
@@ -210,6 +215,21 @@ class BehaviourFile:
             allZerosBurst.append(zerosBurst) #Save the 0s burst
             
         return allZerosBurst
+    
+    
+    """
+    Method to adjust the length of the 0s burst to the specified in the SECONDS_PREVIOUS_TO_ONEs_BURST constant
+    """
+    def AdjustZerosBurstsLength(self, originalZeroBurst):
+        adjustedBursts = originalZeroBurst 
+        
+        if self.SECONDS_PREVIOUS_TO_ONEs_BURST != -1: # If the constant is not -1, get the specified number of 0s
+            adjustedBursts = []
+            
+            for burst in originalZeroBurst:
+                adjustedBursts.append(burst[-int(self.MAX_0s_TO_EXPORT):]) # From the 0s burst get the latest MAX_0s_TO_EXPORT zeros
+        
+        return adjustedBursts
     
     
     """
