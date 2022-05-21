@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from datetime import datetime
 
 BANNER = \
 """
@@ -17,7 +18,7 @@ BANNER = \
 """
 
 
-FOLDER_WITH_BFthinned_FILES = "./Data/"
+DEFAULT_ROOT_FOLDER = "./Data/"
 
 
 class BehaviourFile:
@@ -63,9 +64,9 @@ class BehaviourFile:
     <zerosBurst> An array of arrays. Each of the arrays represents a burst of 0s continuous in time previous to a 1s burst. Each position of the array contains a dictionary with the unifyData values.
     
     """
-    def __init__(self):    
+    def __init__(self, path:str  = DEFAULT_ROOT_FOLDER):    
         
-        self.bFile, self.fFile = self.GetFilesFromPath()
+        self.bFile, self.fFile = self.GetFilesFromPath(path)
         
         self.contentBFile = self.GetDataFromFile(self.bFile)
         self.contentFFile = self.GetDataFromFile(self.fFile)    
@@ -82,21 +83,21 @@ class BehaviourFile:
     """
     Method to get the route to the Fthinned and Bthinned files
     """
-    def GetFilesFromPath(self):
+    def GetFilesFromPath(self, path:str = DEFAULT_ROOT_FOLDER):
         bfileName = ""
         fFileName = ""
         
-        folderWithFiles = os.listdir(FOLDER_WITH_BFthinned_FILES)
+        folderWithFiles = os.listdir(path)
         
         for file in folderWithFiles:
             
             fileName = file.split('.')[0]
                 
             if fileName == 'B-thinned':
-                bfileName = FOLDER_WITH_BFthinned_FILES + file
+                bfileName = path + file
                     
             elif fileName == "F-thinned":
-                fFileName = FOLDER_WITH_BFthinned_FILES + file
+                fFileName = path + file
 
         return bfileName, fFileName        
 
@@ -289,9 +290,22 @@ class BehaviourFile:
         print(f"> Data exported to {fileName}\n")
             
 
+########################################################################## END CLASS ############################################################
+
+
+def SearchAndAnalyzerFilesInFoldersRecursively(path:str = DEFAULT_ROOT_FOLDER):
+    now = datetime.now()
+    dateWithHour = now.strftime("%d-%m-%Y_%H-%M-%S")
+    
+    for dirpath, dirnames, filenames in os.walk(path):
+        for dirs in dirnames: 
+            pathToAnalyze = f"{dirpath}{dirs}/"
+            BehaviourFile(pathToAnalyze).ExportToCSV(f"{pathToAnalyze}{dateWithHour}.csv")
+            
+            
+
+
 if __name__ == "__main__": 
     
-    print(BANNER)
-    
-    Data = BehaviourFile()
-    Data.ExportToCSV("test.csv")
+    print(BANNER)    
+    SearchAndAnalyzerFilesInFoldersRecursively()
