@@ -106,11 +106,11 @@ class BehaviourFile:
     """
     def GetDataFromFile(self, file: str):
         dataset = []
-
+        
+        print(f"> Reading file {file}")
         with open(file, "r") as openedFile: 
             lines = openedFile.readlines()
         
-
         for line in lines: 
             line = line.split("\n")[0]
             dataset.append(line.split("\t"))
@@ -286,7 +286,8 @@ class BehaviourFile:
             for line in formatedString: 
                 file.write(line)
             
-
+        print(f"> Data exported to {fileName}\n")
+            
 
 if __name__ == "__main__": 
     
