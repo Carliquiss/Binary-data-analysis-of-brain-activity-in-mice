@@ -17,7 +17,7 @@ BANNER = \
 """
 
 
-FOLDER_WITH_BFthinned_FILES = "./Datos/"
+FOLDER_WITH_BFthinned_FILES = "./Data/"
 
 
 class BehaviourFile:
