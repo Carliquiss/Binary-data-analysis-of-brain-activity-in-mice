@@ -244,6 +244,8 @@ class BehaviourFile:
             for dataZeros in self.zerosBurst[burstNumber]:
                 completeBursts += dataZeros["activity"] + ";"
             
+            completeBursts += ";" # Adding space between 0s and 1s to find the split more easily in the csv file
+            
             for dataOnes in burstData: 
                 completeBursts += dataOnes["activity"] + ";"
                 
